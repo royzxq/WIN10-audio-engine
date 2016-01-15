@@ -1,0 +1,7 @@
+Debug/
+*sw[a-z]
+*.opendb
+.DS*
+*sdf
+ipch/
+AudioEngineTest/Debug/
