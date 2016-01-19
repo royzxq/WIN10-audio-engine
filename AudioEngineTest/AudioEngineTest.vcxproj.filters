@@ -18,6 +18,8 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="WASAPIRender.cpp" />
+    <ClCompile Include="MFSampleGenerator.cpp" />
+    <ClCompile Include="ToneSampleGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -29,6 +31,8 @@
     </ClInclude>
     <ClInclude Include="Config.h" />
     <ClInclude Include="WASAPIRender.h" />
+    <ClInclude Include="MFSampleGenerator.h" />
+    <ClInclude Include="ToneSampleGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\LockScreenLogo.scale-200.png">

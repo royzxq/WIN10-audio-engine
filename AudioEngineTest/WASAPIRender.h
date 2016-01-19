@@ -6,6 +6,8 @@
 #include <mmdeviceapi.h>
 #include "MainPage.xaml.h"
 #include"DeviseState.h"
+#include"ToneSampleGenerator.h"
+#include "MFSampleGenerator.h"
 
 using namespace Microsoft::WRL;
 using namespace Windows::Media::Devices;
@@ -48,6 +50,10 @@ namespace AudioEngineTest {
 						return m_DeviceStateChanged;
 				  }
 
+				  METHODASYNCCALLBACK(WASAPIRender, StartPlayback, OnStartPlayback);
+				  METHODASYNCCALLBACK(WASAPIRender, StopPlayback, OnStopPlayback);
+				  METHODASYNCCALLBACK(WASAPIRender, PausePlayback, OnPausePlayback);
+				  METHODASYNCCALLBACK(WASAPIRender, SampleReady, OnSampleReady);
 			
 				  STDMETHOD(ActivateComplete)(IActivateAudioInterfaceAsyncOperation * operation);
 			private:
@@ -87,7 +93,8 @@ namespace AudioEngineTest {
 				  DeviceChangedEvent ^ m_DeviceStateChanged;
 				  DEVICEPROPS m_DeviceProps;
 
-
+				  ToneSampleGenerator * m_ToneSource;
+				  MFSampleGenerator * m_MFSource;
 			};
 
 			
