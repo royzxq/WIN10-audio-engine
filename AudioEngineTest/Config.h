@@ -9,12 +9,13 @@
 //
 //*********************************************************
 
-#pragma once 
-#include "pch.h"
 
+#include "pch.h"
+#pragma once 
+#define  MF
 namespace AudioEngineTest
 {
-	  typedef unsigned int UNIT32;
+	  //typedef unsigned int UNIT32;
 	  value struct Scenario;
 
 	  partial ref class MainPage

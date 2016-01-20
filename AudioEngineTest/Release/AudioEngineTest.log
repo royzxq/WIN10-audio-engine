@@ -1,0 +1,13 @@
+﻿  pch.cpp
+  App.xaml.cpp
+  Config.cpp
+  MainPage.xaml.cpp
+  ToneSampleGenerator.cpp
+  WASAPIRender.cpp
+  XamlTypeInfo.Impl.g.cpp
+  Generating code
+  Finished generating code
+  XamlTypeInfo.g.cpp
+     Creating library C:\Users\xinqu\OneDrive\Documents\Visual Studio 2015\Projects\AudioEngineTest\Release\AudioEngineTest\AudioEngineTest.lib and object C:\Users\xinqu\OneDrive\Documents\Visual Studio 2015\Projects\AudioEngineTest\Release\AudioEngineTest\AudioEngineTest.exp
+WASAPIRender.obj : error LNK2001: unresolved external symbol _IID_IMFAsyncCallback
+C:\Users\xinqu\OneDrive\Documents\Visual Studio 2015\Projects\AudioEngineTest\Release\AudioEngineTest\AudioEngineTest.exe : fatal error LNK1120: 1 unresolved externals

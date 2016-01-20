@@ -11,9 +11,12 @@ WASAPIRender::WASAPIRender() :
 	  m_AudioClient(nullptr),
 	  m_AudioRenderClient(nullptr),
 	  m_SampleReadyAsyncResult(nullptr),
-	  m_ToneSource(nullptr),
-	  m_MFSource(nullptr)
+	  m_ToneSource(nullptr)
+	  //m_MFSource(nullptr)
 {
+#ifdef MF
+	  m_MFSource = nullptr;
+#endif
 	  m_SampleReadyEvent = CreateEventEx(nullptr, nullptr, 0, EVENT_ALL_ACCESS);
 	  if (nullptr == m_SampleReadyEvent)
 	  {		
@@ -140,7 +143,7 @@ exit:
 	  return S_OK;
 }
 
-HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::SetProperties(DEVICEPROPS props)
+HRESULT WASAPIRender::SetProperties(DEVICEPROPS props)
 {
 	  m_DeviceProps = props;
 	  return S_OK;
@@ -148,7 +151,7 @@ HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::SetProperties(DEVICEPROPS pr
 
 
 
-HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::SetVolumeOnSession(UNIT32 volume)
+HRESULT WASAPIRender::SetVolumeOnSession(UINT32 volume)
 {
 	  if (volume > 100)
 	  {
@@ -173,7 +176,7 @@ exit:
 
 
 
-HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::ConfigureDeviceInternal()
+HRESULT WASAPIRender::ConfigureDeviceInternal()
 {
 	  if (m_DeviceStateChanged -> GetState() != DeviceState::DeviceStateActivated)
 	  {
@@ -215,7 +218,7 @@ HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::ConfigureDeviceInternal()
 
 }
 
-HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::ValidateBufferValue()
+HRESULT WASAPIRender::ValidateBufferValue()
 {
 	  HRESULT hr = S_OK;
 	  if (!m_DeviceProps.IsHWOffload)
@@ -243,10 +246,10 @@ HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::ValidateBufferValue()
 
 
 
-HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::ConfigureSource()
+HRESULT WASAPIRender::ConfigureSource()
 {
 	  HRESULT hr = S_OK;
-	  UNIT32 FramesPerPeriod = GetBufferFramesPerPeriod();
+	  UINT32 FramesPerPeriod = GetBufferFramesPerPeriod();
 	  if (m_DeviceProps.IsTonePlayback)
 	  {
 			m_ToneSource = new ToneSampleGenerator();
@@ -261,6 +264,7 @@ HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::ConfigureSource()
 	  }
 	  else
 	  {
+#ifdef MF
 			m_MFSource = new MFSampleGenerator();
 			if (m_MFSource)
 			{
@@ -270,11 +274,14 @@ HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::ConfigureSource()
 			{
 				  hr = E_OUTOFMEMORY;
 			}
+#endif // MF
+
+			
 	  }
 	  return hr;
 }
 
-AudioEngineTest::UNIT32 AudioEngineTest::WASAPIAudio::WASAPIRender::GetBufferFramesPerPeriod()
+UINT32 WASAPIRender::GetBufferFramesPerPeriod()
 {
 	  REFERENCE_TIME defaultDevicePeriod = 0;
 	  REFERENCE_TIME minimumDevicePeriod = 0;
@@ -298,12 +305,12 @@ AudioEngineTest::UNIT32 AudioEngineTest::WASAPIAudio::WASAPIRender::GetBufferFra
 			devicePeriodInSec = defaultDevicePeriod / (10000.0 * 1000.0);
 	  }
 
-	  return static_cast<UNIT32>(m_MixFormat->nSamplesPerSec * devicePeriodInSec + 0.5);
+	  return static_cast<UINT32>(m_MixFormat->nSamplesPerSec * devicePeriodInSec + 0.5);
 }
 
 
 
-HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::StartPlaybackAsync()
+HRESULT WASAPIRender::StartPlaybackAsync()
 {
 	  HRESULT hr = S_OK;
 
@@ -327,7 +334,7 @@ HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::StartPlaybackAsync()
 	  return E_FAIL;
 }
 
-HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::OnStartPlayback(IMFAsyncResult * pResult)
+HRESULT WASAPIRender::OnStartPlayback(IMFAsyncResult * pResult)
 {
 	  HRESULT hr = S_OK;
 
@@ -336,7 +343,7 @@ HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::OnStartPlayback(IMFAsyncResu
 	  {
 			goto exit;
 	  }
-
+#ifdef MF
 	  if (!m_DeviceProps.IsTonePlayback)
 	  {
 			hr = m_MFSource->StartSource();
@@ -346,6 +353,9 @@ HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::OnStartPlayback(IMFAsyncResu
 			}
 	  }
 
+#endif // MF
+
+	
 	  hr = m_AudioClient->Start();
 	  if (SUCCEEDED(hr))
 	  {
@@ -361,7 +371,7 @@ exit:
 	  }
 	  return S_OK;
 }
-HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::StopPlaybackAsync()
+HRESULT WASAPIRender::StopPlaybackAsync()
 {
 	  if ( (m_DeviceStateChanged->GetState() != DeviceState::DeviceStatePlaying) &&
 			(m_DeviceStateChanged->GetState() != DeviceState::DeviceStatePaused) &&
@@ -373,7 +383,7 @@ HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::StopPlaybackAsync()
 	  return MFPutWorkItem2(MFASYNC_CALLBACK_QUEUE_MULTITHREADED, 0, &m_xStopPlayback, nullptr);
 }
 
-HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::OnStopPlayback(IMFAsyncResult * pResult)
+HRESULT WASAPIRender::OnStopPlayback(IMFAsyncResult * pResult)
 {
 	  if (0 != m_SampleReadyKey)
 	  {
@@ -389,16 +399,20 @@ HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::OnStopPlayback(IMFAsyncResul
 	  {
 			m_ToneSource->Flush();
 	  }
+#ifdef MF
 	  else
 	  {
 			m_MFSource->StartSource();
 			m_MFSource->Shutdown();
 	  }
+#endif // MF
+
+	 
 	  m_DeviceStateChanged->SetState(DeviceState::DeviceStateStopped, S_OK, true);
 	  return S_OK;
 }
 
-HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::PausePlaybackAsync()
+HRESULT WASAPIRender::PausePlaybackAsync()
 {
 	 if (( m_DeviceStateChanged->GetState() != DeviceState::DeviceStatePlaying) &&
 		   (m_DeviceStateChanged->GetState() != DeviceState::DeviceStateInError))
@@ -413,7 +427,7 @@ HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::PausePlaybackAsync()
 
 
 
-HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::OnPausePlayback(IMFAsyncResult * pResult)
+HRESULT WASAPIRender::OnPausePlayback(IMFAsyncResult * pResult)
 {
 	  m_AudioClient->Stop();
 	  m_DeviceStateChanged->SetState(DeviceState::DeviceStatePaused, S_OK, true);
@@ -421,7 +435,7 @@ HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::OnPausePlayback(IMFAsyncResu
 }
 
 
-HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::OnSampleReady(IMFAsyncResult * pResult)
+HRESULT WASAPIRender::OnSampleReady(IMFAsyncResult * pResult)
 {
 	  HRESULT hr = S_OK;
 
@@ -440,7 +454,7 @@ HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::OnSampleReady(IMFAsyncResult
 	  return hr;
 }
 
-HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::OnAudioSampleRequested(Platform::Boolean IsSilence /*= false*/)
+HRESULT WASAPIRender::OnAudioSampleRequested(Platform::Boolean IsSilence /*= false*/)
 {
 	  HRESULT hr = S_OK;
 	  UINT32 PaddingFrames = 0;
@@ -497,10 +511,10 @@ HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::OnAudioSampleRequested(Platf
 				  {
 						hr = GetToneSample(FramesAvailable);
 				  }
-				  else
+				  /*else
 				  {
 						hr = GetMFSample(FramesAvailable);
-				  }
+				  }*/
 			}
 	  }
 
@@ -519,7 +533,7 @@ exit:
 	  return hr;
 }
 
-HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::GetToneSample(UNIT32 FramesAvailable)
+HRESULT WASAPIRender::GetToneSample(UINT32 FramesAvailable)
 {
 	  HRESULT hr = S_OK;
 	  BYTE * Data;
@@ -535,8 +549,8 @@ HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::GetToneSample(UNIT32 FramesA
 	  }
 	  else if (m_ToneSource->GetBufferLength() <= (FramesAvailable * m_MixFormat->nBlockAlign))
 	  {
-			UNIT32 ActualFramesToRead = m_ToneSource->GetBufferLength() / m_MixFormat->nBlockAlign;
-			UNIT32 ActualBytesToRead = ActualFramesToRead * m_MixFormat->nBlockAlign;
+			UINT32 ActualFramesToRead = m_ToneSource->GetBufferLength() / m_MixFormat->nBlockAlign;
+			UINT32 ActualBytesToRead = ActualFramesToRead * m_MixFormat->nBlockAlign;
 
 			hr = m_AudioRenderClient->GetBuffer(ActualFramesToRead, &Data);
 			if (SUCCEEDED(hr))
@@ -550,8 +564,8 @@ HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::GetToneSample(UNIT32 FramesA
 	  }
 	  return hr;
 }
-
-HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::GetMFSample(UNIT32 FramesAvailable)
+#ifdef MF
+HRESULT WASAPIRender::GetMFSample(UINT32 FramesAvailable)
 {
 	  HRESULT hr = S_OK;
 	  BYTE * Data = NULL;
@@ -567,8 +581,8 @@ HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::GetMFSample(UNIT32 FramesAva
 	  }
 	  else
 	  {
-			UNIT32 ActualBytesRead = 0;
-			UNIT32 ActualBytesToRead = FramesAvailable * m_MixFormat->nBlockAlign;
+			UINT32 ActualBytesRead = 0;
+			UINT32 ActualBytesToRead = FramesAvailable * m_MixFormat->nBlockAlign;
 
 			hr = m_AudioRenderClient->GetBuffer(FramesAvailable, &Data);
 			if (SUCCEEDED(hr))
@@ -586,13 +600,10 @@ HRESULT AudioEngineTest::WASAPIAudio::WASAPIRender::GetMFSample(UNIT32 FramesAva
 						}
 						else {
 							  hr = m_AudioRenderClient->ReleaseBuffer(ActualBytesToRead / m_MixFormat->nBlockAlign, 0);
-
 						}
 				  }
-				  
-
-				  
 			}
-			return hr;
 	  }
+	  return hr;
 }
+#endif

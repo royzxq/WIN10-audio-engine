@@ -7,7 +7,10 @@
 #include "MainPage.xaml.h"
 #include"DeviseState.h"
 #include"ToneSampleGenerator.h"
+
+#ifdef MF
 #include "MFSampleGenerator.h"
+#endif // MF
 
 using namespace Microsoft::WRL;
 using namespace Windows::Media::Devices;
@@ -45,7 +48,7 @@ namespace AudioEngineTest {
 				  HRESULT StopPlaybackAsync();
 				  HRESULT PausePlaybackAsync();
 
-				  HRESULT SetVolumeOnSession(UNIT32 volume);
+				  HRESULT SetVolumeOnSession(UINT32 volume);
 				  DeviceChangedEvent ^ GetDeviceStateEvent() {
 						return m_DeviceStateChanged;
 				  }
@@ -68,23 +71,24 @@ namespace AudioEngineTest {
 				  HRESULT ValidateBufferValue();
 				  HRESULT OnAudioSampleRequested(Platform::Boolean IsSilence = false);
 				  HRESULT ConfigureSource();
-				  UNIT32 GetBufferFramesPerPeriod();
+				  UINT32 GetBufferFramesPerPeriod();
 
-				  HRESULT GetToneSample(UNIT32 FramesAvailable);
-				  HRESULT GetMFSample(UNIT32 FramesAvailable);
-
+				  HRESULT GetToneSample(UINT32 FramesAvailable);
+#ifdef MF	
+				  HRESULT GetMFSample(UINT32 FramesAvailable);
+#endif
 			private:
 				  Platform::String ^ m_DeviceIdString;
-				  UNIT32 m_BufferFrames;
+				  UINT32 m_BufferFrames;
 				  HANDLE m_SampleReadyEvent;
 				  MFWORKITEM_KEY m_SampleReadyKey;
 				  CRITICAL_SECTION m_CritSec;
 
 				  WAVEFORMATEX *m_MixFormat;
-				  UNIT32	  m_DefaultPeriodInFrames;
-				  UNIT32	  m_FundamentalPeriodInFrames;
-				  UNIT32	  m_MaxPeriodInFrames;
-				  UNIT32	  m_MinPeriodInFrames;
+				  UINT32	  m_DefaultPeriodInFrames;
+				  UINT32	  m_FundamentalPeriodInFrames;
+				  UINT32	  m_MaxPeriodInFrames;
+				  UINT32	  m_MinPeriodInFrames;
 
 				  IAudioClient3 *m_AudioClient;
 				  IAudioRenderClient *m_AudioRenderClient;
@@ -94,7 +98,11 @@ namespace AudioEngineTest {
 				  DEVICEPROPS m_DeviceProps;
 
 				  ToneSampleGenerator * m_ToneSource;
+#ifdef MF
 				  MFSampleGenerator * m_MFSource;
+#endif // MF
+
+				
 			};
 
 			

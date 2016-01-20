@@ -57,6 +57,7 @@ inline void  ThrowIfFailed(HRESULT hr)
 #define SAFE_ARRAYDELETE(x) { delete[] x; x = nullptr; }
 #endif
 
+//test
 #ifndef METHODASYNCCALLBACK
 #define METHODASYNCCALLBACK(Parent, AsyncCallback, pfnCallback) \
 class Callback##AsyncCallback :\

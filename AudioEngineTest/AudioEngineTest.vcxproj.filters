@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Common">
-      <UniqueIdentifier>bf97f6ff-92a5-4025-9914-aa12e0de7dd9</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets">
       <UniqueIdentifier>a869f147-4c85-45d8-aa1f-321a1cc26081</UniqueIdentifier>
       <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png</Extensions>
@@ -18,21 +15,19 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="WASAPIRender.cpp" />
-    <ClCompile Include="MFSampleGenerator.cpp" />
     <ClCompile Include="ToneSampleGenerator.cpp" />
+    <ClCompile Include="MFSampleGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h" />
     <ClInclude Include="MainPage.xaml.h" />
     <ClInclude Include="DeviseState.h" />
-    <ClInclude Include="common.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="Config.h" />
     <ClInclude Include="WASAPIRender.h" />
-    <ClInclude Include="MFSampleGenerator.h" />
     <ClInclude Include="ToneSampleGenerator.h" />
+    <ClInclude Include="common.h" />
+    <ClInclude Include="MFSampleGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\LockScreenLogo.scale-200.png">
@@ -66,5 +61,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainPage.xaml" />
+    <Page Include="Scenario1.xaml" />
   </ItemGroup>
 </Project>
