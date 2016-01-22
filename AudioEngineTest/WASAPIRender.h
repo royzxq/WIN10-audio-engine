@@ -58,7 +58,7 @@ namespace AudioEngineTest {
 				  METHODASYNCCALLBACK(WASAPIRender, PausePlayback, OnPausePlayback);
 				  METHODASYNCCALLBACK(WASAPIRender, SampleReady, OnSampleReady);
 			
-				  STDMETHOD(ActivateComplete)(IActivateAudioInterfaceAsyncOperation * operation);
+				  STDMETHOD(ActivateCompleted)(IActivateAudioInterfaceAsyncOperation * operation);
 			private:
 				  ~WASAPIRender();
 

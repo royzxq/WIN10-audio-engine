@@ -25,8 +25,107 @@ void ::AudioEngineTest::MainPage::InitializeComponent()
 
 void ::AudioEngineTest::MainPage::Connect(int __connectionId, ::Platform::Object^ __target)
 {
-    __connectionId;         // unreferenced 
-    __target;               // unreferenced
+    switch (__connectionId)
+    {
+        case 1:
+            {
+                this->Splitter = safe_cast<::Windows::UI::Xaml::Controls::SplitView^>(__target);
+            }
+            break;
+        case 2:
+            {
+                this->HeaderPanel = safe_cast<::Windows::UI::Xaml::Controls::StackPanel^>(__target);
+            }
+            break;
+        case 3:
+            {
+                this->WindowsLogo = safe_cast<::Windows::UI::Xaml::Controls::Image^>(__target);
+            }
+            break;
+        case 4:
+            {
+                this->Header = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+            }
+            break;
+        case 5:
+            {
+                ::Windows::UI::Xaml::Controls::Primitives::ToggleButton^ element5 = safe_cast<::Windows::UI::Xaml::Controls::Primitives::ToggleButton^>(__target);
+                (safe_cast<::Windows::UI::Xaml::Controls::Primitives::ToggleButton^>(element5))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::AudioEngineTest::MainPage::*)
+                    (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&MainPage::Button_Click);
+            }
+            break;
+        case 6:
+            {
+                this->Hamburger = safe_cast<::Windows::UI::Xaml::Controls::FontIcon^>(__target);
+            }
+            break;
+        case 7:
+            {
+                this->SampleTitle = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+            }
+            break;
+        case 8:
+            {
+                this->ScenarioControl = safe_cast<::Windows::UI::Xaml::Controls::ListBox^>(__target);
+                (safe_cast<::Windows::UI::Xaml::Controls::ListBox^>(this->ScenarioControl))->SelectionChanged += ref new ::Windows::UI::Xaml::Controls::SelectionChangedEventHandler(this, (void (::AudioEngineTest::MainPage::*)
+                    (::Platform::Object^, ::Windows::UI::Xaml::Controls::SelectionChangedEventArgs^))&MainPage::ScenarioControl_SelectionChanged);
+            }
+            break;
+        case 9:
+            {
+                this->FooterPanel = safe_cast<::Windows::UI::Xaml::Controls::StackPanel^>(__target);
+            }
+            break;
+        case 10:
+            {
+                this->Copyright = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+            }
+            break;
+        case 11:
+            {
+                this->LinksPanel = safe_cast<::Windows::UI::Xaml::Controls::StackPanel^>(__target);
+            }
+            break;
+        case 12:
+            {
+                ::Windows::UI::Xaml::Controls::HyperlinkButton^ element12 = safe_cast<::Windows::UI::Xaml::Controls::HyperlinkButton^>(__target);
+                (safe_cast<::Windows::UI::Xaml::Controls::HyperlinkButton^>(element12))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::AudioEngineTest::MainPage::*)
+                    (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&MainPage::Footer_Click);
+            }
+            break;
+        case 13:
+            {
+                this->PrivacyLink = safe_cast<::Windows::UI::Xaml::Controls::HyperlinkButton^>(__target);
+                (safe_cast<::Windows::UI::Xaml::Controls::HyperlinkButton^>(this->PrivacyLink))->Click += ref new ::Windows::UI::Xaml::RoutedEventHandler(this, (void (::AudioEngineTest::MainPage::*)
+                    (::Platform::Object^, ::Windows::UI::Xaml::RoutedEventArgs^))&MainPage::Footer_Click);
+            }
+            break;
+        case 14:
+            {
+                this->ScenarioFrame = safe_cast<::Windows::UI::Xaml::Controls::Frame^>(__target);
+            }
+            break;
+        case 15:
+            {
+                this->StatusPanel = safe_cast<::Windows::UI::Xaml::Controls::StackPanel^>(__target);
+            }
+            break;
+        case 16:
+            {
+                this->StatusLabel = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+            }
+            break;
+        case 17:
+            {
+                this->StatusBorder = safe_cast<::Windows::UI::Xaml::Controls::Border^>(__target);
+            }
+            break;
+        case 18:
+            {
+                this->StatusBlock = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(__target);
+            }
+            break;
+    }
     _contentLoaded = true;
 }
 

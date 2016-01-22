@@ -64,7 +64,7 @@ HRESULT WASAPIRender::InitAudioDeviceAsync() {
 	  return hr;
 }
 
-HRESULT WASAPIRender::ActivateComplete(IActivateAudioInterfaceAsyncOperation * operation) {
+HRESULT WASAPIRender::ActivateCompleted(IActivateAudioInterfaceAsyncOperation * operation) {
 	  HRESULT hr = S_OK;
 	  HRESULT hrActivateResult = S_OK;
 	  IUnknown * punkAudioInterface = nullptr;
@@ -110,6 +110,13 @@ HRESULT WASAPIRender::ActivateComplete(IActivateAudioInterfaceAsyncOperation * o
 			}
 
 			hr = m_AudioClient->GetBufferSize(&m_BufferFrames);
+			if (FAILED(hr))
+			{
+				  goto exit;
+			}
+
+			// Get the render client
+			hr = m_AudioClient->GetService(__uuidof(IAudioRenderClient), (void**)&m_AudioRenderClient);
 			if (FAILED(hr))
 			{
 				  goto exit;

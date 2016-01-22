@@ -7,22 +7,56 @@
 //------------------------------------------------------------------------------
 
 
+namespace Windows {
+    namespace UI {
+        namespace Xaml {
+            namespace Controls {
+                ref class Grid;
+                ref class Button;
+                ref class ToggleSwitch;
+                ref class Slider;
+                ref class TextBox;
+                ref class RadioButton;
+            }
+        }
+    }
+}
 
 namespace AudioEngineTest
 {
-    [::Windows::Foundation::Metadata::WebHostHidden]
-    partial ref class Scenario1 : public ::Windows::UI::Xaml::Controls::Page, 
-        public ::Windows::UI::Xaml::Markup::IComponentConnector,
-        public ::Windows::UI::Xaml::Markup::IComponentConnector2
+    namespace WASAPIAudio
     {
-    public:
-        void InitializeComponent();
-        virtual void Connect(int connectionId, ::Platform::Object^ target);
-        virtual ::Windows::UI::Xaml::Markup::IComponentConnector^ GetBindingConnector(int connectionId, ::Platform::Object^ target);
-    
-    private:
-        bool _contentLoaded;
-    
-    };
+        [::Windows::Foundation::Metadata::WebHostHidden]
+        partial ref class Scenario1 : public ::Windows::UI::Xaml::Controls::Page, 
+            public ::Windows::UI::Xaml::Markup::IComponentConnector,
+            public ::Windows::UI::Xaml::Markup::IComponentConnector2
+        {
+        public:
+            void InitializeComponent();
+            virtual void Connect(int connectionId, ::Platform::Object^ target);
+            virtual ::Windows::UI::Xaml::Markup::IComponentConnector^ GetBindingConnector(int connectionId, ::Platform::Object^ target);
+        
+        private:
+            bool _contentLoaded;
+        
+            private: ::Windows::UI::Xaml::Controls::Grid^ LayoutRoot;
+            private: ::Windows::UI::Xaml::Controls::Grid^ Input;
+            private: ::Windows::UI::Xaml::Controls::Grid^ Output;
+            private: ::Windows::UI::Xaml::Controls::Button^ btnPlay;
+            private: ::Windows::UI::Xaml::Controls::Button^ btnPause;
+            private: ::Windows::UI::Xaml::Controls::Button^ btnPlayPause;
+            private: ::Windows::UI::Xaml::Controls::Button^ btnStop;
+            private: ::Windows::UI::Xaml::Controls::ToggleSwitch^ toggleHWOffload;
+            private: ::Windows::UI::Xaml::Controls::ToggleSwitch^ toggleBackgroundAudio;
+            private: ::Windows::UI::Xaml::Controls::ToggleSwitch^ toggleRawAudio;
+            private: ::Windows::UI::Xaml::Controls::Slider^ sliderVolume;
+            private: ::Windows::UI::Xaml::Controls::TextBox^ txtHWBuffer;
+            private: ::Windows::UI::Xaml::Controls::RadioButton^ radioTone;
+            private: ::Windows::UI::Xaml::Controls::Slider^ sliderFrequency;
+            private: ::Windows::UI::Xaml::Controls::RadioButton^ radioFile;
+            private: ::Windows::UI::Xaml::Controls::Button^ btnFilePicker;
+            private: ::Windows::UI::Xaml::Controls::TextBox^ txtContentProps;
+        };
+    }
 }
 

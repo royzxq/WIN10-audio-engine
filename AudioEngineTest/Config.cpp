@@ -17,8 +17,5 @@ using namespace AudioEngineTest;
 
 Platform::Array<Scenario>^ MainPage::scenariosInner = ref new Platform::Array<Scenario>
 {
-	  { "Device Enumeration", "SDKSample.WASAPIAudio.Scenario1" },
-	  { "Audio Rendering with Hardware Offload", "SDKSample.WASAPIAudio.Scenario2" },
-	  { "Audio Rendering with Low Latency", "SDKSample.WASAPIAudio.Scenario3" },
-	  { "PCM Audio Capture", "SDKSample.WASAPIAudio.Scenario4" }
+	  { "Playback", "AudioEngineTest.WASAPIAudio.Scenario1"}
 };

@@ -11,9 +11,11 @@
 
 #include "App.xaml.h"
 #include "MainPage.xaml.h"
+#include "Scenario1.xaml.h"
 #include "XamlBindingInfo.g.hpp"
 #include "App.g.hpp"
 #include "MainPage.g.hpp"
+#include "Scenario1.g.hpp"
 
 template<typename T>
 ::Platform::Object^ ActivateType()
@@ -77,6 +79,12 @@ TypeInfo TypeInfos[] =
     -1,
     0, 0, ::Windows::UI::Xaml::Interop::TypeKind::Metadata,
     false, true,  false, false,
+    //   3
+    L"AudioEngineTest.WASAPIAudio.Scenario1", L"",
+    &ActivateType<::AudioEngineTest::WASAPIAudio::Scenario1>, nullptr, nullptr, nullptr,
+    1, // Windows.UI.Xaml.Controls.Page
+    0, 0, ::Windows::UI::Xaml::Interop::TypeKind::Custom,
+    true,  false, false, false,
     //  Last type here is for padding
     L"", L"",
     nullptr, nullptr, nullptr, nullptr,
@@ -124,6 +132,7 @@ UINT TypeInfoLookup[] = {
       2,   //  35
       2,   //  36
       3,   //  37
+      4,   //  38
 };
 
 TypeInfo* GetTypeInfo(::Platform::String^ typeName)
